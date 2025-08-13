@@ -26,11 +26,13 @@ public class JwtService {
 
     private Key getSigningKey() {
         byte[] keyBytes = Base64.getDecoder().decode(SECRET);
+
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
+
         return claimsResolver.apply(claims);
     }
 
@@ -40,6 +42,7 @@ public class JwtService {
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUserId(token);
+
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
