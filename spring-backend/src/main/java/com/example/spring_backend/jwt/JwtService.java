@@ -20,7 +20,7 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String SECRET;
 
-    public String extractUserId(String token) {
+    public String extractUserEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -41,7 +41,7 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUserId(token);
+        final String username = extractUserEmail(token);
 
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }

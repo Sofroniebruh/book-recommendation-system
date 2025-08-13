@@ -10,10 +10,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
