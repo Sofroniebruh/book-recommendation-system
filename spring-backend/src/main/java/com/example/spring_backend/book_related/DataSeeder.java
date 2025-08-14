@@ -4,6 +4,7 @@ import com.example.spring_backend.book_related.book.Book;
 import com.example.spring_backend.book_related.book.BookRepository;
 import com.example.spring_backend.book_related.rating.Rating;
 import com.example.spring_backend.book_related.rating.RatingRepository;
+import com.example.spring_backend.book_related.rating.RatingService;
 import com.example.spring_backend.user.User;
 import com.example.spring_backend.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +24,7 @@ public class DataSeeder implements CommandLineRunner {
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
     private final RatingRepository ratingRepository;
+    private final RatingService ratingService;
     public Map<Long, User> userCache = new HashMap<>();
 
     @Override

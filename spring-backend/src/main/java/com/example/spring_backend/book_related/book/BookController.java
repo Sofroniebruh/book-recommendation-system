@@ -1,5 +1,6 @@
 package com.example.spring_backend.book_related.book;
 
+import com.example.spring_backend.book_related.book.custom_exceptions.BookNotFoundException;
 import com.example.spring_backend.book_related.book.records.BookResponse;
 import com.example.spring_backend.config.PaginatedResponse;
 import lombok.RequiredArgsConstructor;
@@ -7,10 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/books")
@@ -27,5 +25,10 @@ public class BookController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy).ascending());
 
         return ResponseEntity.ok(bookService.getBooks(pageable));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BookResponse> getBookById(@PathVariable Long id) throws BookNotFoundException {
+        return ResponseEntity.ok(bookService.getBookById(id));
     }
 }

@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,6 +28,7 @@ public class Book {
     private String imageUrl;
     @Column(columnDefinition = "TEXT")
     private String authors;
+    private Double rating;
     @OneToMany
     private List<Rating> ratings;
 }

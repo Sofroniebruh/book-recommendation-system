@@ -1,6 +1,6 @@
 package com.example.spring_backend.auth;
 
-import com.example.spring_backend.auth.customexceptions.UserAlreadyRegistered;
+import com.example.spring_backend.auth.custom_exceptions.UserAlreadyRegistered;
 import com.example.spring_backend.auth.records.AuthenticationResponse;
 import com.example.spring_backend.auth.records.LoginRequest;
 import com.example.spring_backend.auth.records.RegisterRequest;

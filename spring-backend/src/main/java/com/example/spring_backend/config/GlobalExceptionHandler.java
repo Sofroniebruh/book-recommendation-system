@@ -1,6 +1,7 @@
 package com.example.spring_backend.config;
 
-import com.example.spring_backend.auth.customexceptions.UserAlreadyRegistered;
+import com.example.spring_backend.auth.custom_exceptions.UserAlreadyRegistered;
+import com.example.spring_backend.book_related.book.custom_exceptions.BookNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,5 +36,12 @@ public class GlobalExceptionHandler {
                 ));
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse<>(errors));
+    }
+
+    @ExceptionHandler({
+            BookNotFoundException.class,
+    })
+    public ResponseEntity<?> handleNotFoundEntity(BookNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse<>(ex.getMessage()));
     }
 }
