@@ -1,7 +1,8 @@
 package com.example.spring_backend.config;
 
-import com.example.spring_backend.auth.custom_exceptions.UserAlreadyRegistered;
-import com.example.spring_backend.book_related.book.custom_exceptions.BookNotFoundException;
+import com.example.spring_backend.config.custom_exceptions.AuthErrorException;
+import com.example.spring_backend.config.custom_exceptions.EntityNotFoundException;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,12 +17,11 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler({
-            UserAlreadyRegistered.class,
-            UsernameNotFoundException.class,
+            AuthErrorException.class,
     })
-    public ResponseEntity<?> handleAuthError()
+    public ResponseEntity<?> handleAuthError(AuthErrorException ex)
     {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse<>("Unauthorized"));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse<>(ex.getMessage()));
     }
 
     @ExceptionHandler({
@@ -39,9 +39,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({
-            BookNotFoundException.class,
+            EntityNotFoundException.class,
     })
-    public ResponseEntity<?> handleNotFoundEntity(BookNotFoundException ex) {
+    public ResponseEntity<?> handleNotFoundEntity(EntityNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse<>(ex.getMessage()));
     }
 }

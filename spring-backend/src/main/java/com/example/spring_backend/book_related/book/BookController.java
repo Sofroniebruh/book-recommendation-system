@@ -20,15 +20,16 @@ public class BookController {
     public ResponseEntity<PaginatedResponse<BookResponse>> getBooks(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
-            @RequestParam(defaultValue = "id") String sortBy
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "") String name
     ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy).ascending());
 
-        return ResponseEntity.ok(bookService.getBooks(pageable));
+        return ResponseEntity.ok(bookService.getBooks(pageable, name));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<BookResponse> getBookById(@PathVariable Long id) throws BookNotFoundException {
-        return ResponseEntity.ok(bookService.getBookById(id));
+        return ResponseEntity.ok(bookService.getBookResponseById(id));
     }
 }

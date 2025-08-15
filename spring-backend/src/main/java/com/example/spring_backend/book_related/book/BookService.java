@@ -18,13 +18,20 @@ public class BookService
     private final BookRepository bookRepository;
     private final RatingService ratingService;
 
-    public PaginatedResponse<BookResponse> getBooks(Pageable pageable) {
-        Page<Book> page = bookRepository.findAll(pageable);
+    public PaginatedResponse<BookResponse> getBooks(Pageable pageable, String name) {
+        Page<Book> page;
+        
+        if (name.isEmpty()) {
+            page = bookRepository.findAll(pageable);
+        } else {
+            page = bookRepository.findByTitleContainingIgnoreCase(name.trim(), pageable);
+        }
+        
         List<BookResponse> books;
 
         books = page.getContent()
                 .stream()
-                .map(book -> BookResponse.fromEntity(book, ratingService.getAverageRatingPerBook(book.getId())))
+                .map(book -> BookResponse.fromEntity(book, ratingService.getAverageRatingPerBookChecked(book.getId())))
                 .toList();
 
         return new PaginatedResponse<>(
@@ -37,10 +44,15 @@ public class BookService
         );
     }
 
-    public BookResponse getBookById(Long id) throws BookNotFoundException {
-        return BookResponse.fromEntity(
-                bookRepository.findById(id)
-                        .orElseThrow(() -> new BookNotFoundException("Book with id: " + id + " not found")),
-                ratingService.getAverageRatingPerBook(id));
+    public Book getBookById(Long id) throws BookNotFoundException {
+        return bookRepository.findById(id)
+                        .orElseThrow(() -> new BookNotFoundException("Book with id: " + id + " not found"));
+    }
+
+    public BookResponse getBookResponseById(Long id) throws BookNotFoundException {
+        Book book = getBookById(id);
+        Double rating = (Math.floor(ratingService.getAverageRatingPerBookChecked(book.getId()) * 100) / 100);
+
+        return BookResponse.fromEntity(book, rating);
     }
 }

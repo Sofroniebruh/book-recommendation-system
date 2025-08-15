@@ -22,7 +22,7 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getOutputStream().println(
                 new ObjectMapper().writeValueAsString(
-                        new ErrorResponse<>("Unauthorized")
+                        new ErrorResponse<>(authException.getMessage())
                 )
         );
     }
