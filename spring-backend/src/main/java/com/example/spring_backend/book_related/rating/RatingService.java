@@ -7,6 +7,7 @@ import com.example.spring_backend.book_related.rating.records.RatingRequest;
 import com.example.spring_backend.config.custom_exceptions.EntityNotFoundException;
 import com.example.spring_backend.user.User;
 import com.example.spring_backend.user.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ public class RatingService {
     private final BookRepository bookRepository;
     private final UserService userService;
 
+    @Transactional
     public Rating saveRating(RatingRequest request) throws EntityNotFoundException {
         Book book = bookRepository.findById(request.bookId())
                 .orElseThrow(() -> new BookNotFoundException("Book with id " + request.bookId() + " not found"));
