@@ -30,6 +30,8 @@ public class SecurityConfig {
                                 "/api/v1/books/**"
                         )
                         .permitAll()
+                        .requestMatchers("/api/v1/auth/refresh")
+                        .authenticated()
                         .anyRequest()
                         .authenticated()
                 )
