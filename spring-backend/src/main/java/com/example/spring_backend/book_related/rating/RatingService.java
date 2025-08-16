@@ -6,7 +6,8 @@ import com.example.spring_backend.book_related.book.custom_exceptions.BookNotFou
 import com.example.spring_backend.book_related.rating.records.RatingRequest;
 import com.example.spring_backend.config.custom_exceptions.EntityNotFoundException;
 import com.example.spring_backend.user.User;
-import com.example.spring_backend.user.UserService;
+import com.example.spring_backend.user.UserRepository;
+import com.example.spring_backend.user.custom_exception.UserNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,13 +17,14 @@ import org.springframework.stereotype.Service;
 public class RatingService {
     private final RatingRepository ratingRepository;
     private final BookRepository bookRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     @Transactional
     public Rating saveRating(RatingRequest request) throws EntityNotFoundException {
         Book book = bookRepository.findById(request.bookId())
                 .orElseThrow(() -> new BookNotFoundException("Book with id " + request.bookId() + " not found"));
-        User user = userService.getUserById(request.userId());
+        User user = userRepository.getUserById(request.userId())
+                .orElseThrow(() -> new UserNotFoundException("User with id " + request.userId() + " not found"));
 
         Rating rating = Rating.builder()
                 .user(user)
@@ -33,7 +35,11 @@ public class RatingService {
         return ratingRepository.save(rating);
     }
 
-    public Double getAverageRatingPerBookChecked(Long bookId) {
+    private Double getAverageRatingPerBookChecked(Long bookId) {
         return ratingRepository.getAverageRating(bookId);
+    }
+
+    public Double getAverageRatingPerBookCheckedRounded(Long bookId) {
+        return Math.floor(getAverageRatingPerBookChecked(bookId) * 100) / 100;
     }
 }

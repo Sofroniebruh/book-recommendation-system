@@ -21,17 +21,18 @@ public class UserController {
 
     @PutMapping("/{id}/read-books")
     public ResponseEntity<UserDto> updateListOfReadBooks(
-            @Valid
             @PathVariable Long id,
+            @Valid
             @RequestBody BookReadRequest bookReadRequest) {
         return ResponseEntity.ok((userService.updateUserBookList(id, bookReadRequest)));
     }
 
     @DeleteMapping("/{id}/read-books")
     public ResponseEntity<UserDto> deleteFromReadBooks(
-            @Valid
             @PathVariable Long id,
-            @RequestBody BookReadRequest bookReadRequest
+            @RequestBody
+            @Valid
+            BookReadRequest bookReadRequest
     ) {
         return ResponseEntity.ok(userService.deleteFromUserRead(id, bookReadRequest));
     }

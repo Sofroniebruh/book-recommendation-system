@@ -2,10 +2,9 @@ package com.example.spring_backend.config;
 
 import com.example.spring_backend.config.custom_exceptions.AuthErrorException;
 import com.example.spring_backend.config.custom_exceptions.EntityNotFoundException;
-import io.jsonwebtoken.ExpiredJwtException;
+import com.example.spring_backend.user.custom_exception.UserBookListException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -44,4 +43,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleNotFoundEntity(EntityNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse<>(ex.getMessage()));
     }
+
+    @ExceptionHandler({
+            UserBookListException.class
+    })
+    public ResponseEntity<?> handleExistingBookInUserList(UserBookListException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse<>(ex.getMessage()));
+    }
+
 }

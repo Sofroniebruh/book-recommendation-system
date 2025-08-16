@@ -31,7 +31,7 @@ public class BookService
 
         books = page.getContent()
                 .stream()
-                .map(book -> BookResponse.fromEntity(book, ratingService.getAverageRatingPerBookChecked(book.getId())))
+                .map(book -> BookResponse.fromEntity(book, ratingService.getAverageRatingPerBookCheckedRounded(book.getId())))
                 .toList();
 
         return new PaginatedResponse<>(
@@ -51,8 +51,7 @@ public class BookService
 
     public BookResponse getBookResponseById(Long id) throws BookNotFoundException {
         Book book = getBookById(id);
-        Double rating = (Math.floor(ratingService.getAverageRatingPerBookChecked(book.getId()) * 100) / 100);
 
-        return BookResponse.fromEntity(book, rating);
+        return BookResponse.fromEntity(book, ratingService.getAverageRatingPerBookCheckedRounded(book.getId()));
     }
 }
