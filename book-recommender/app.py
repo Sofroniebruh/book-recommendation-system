@@ -136,18 +136,6 @@ custom_css = """
     font-weight: 300;
 }
 
-/* Input section styling */
-.input-section {
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: 15px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    position: relative;
-    overflow: visible;
-}
-
 /* Button styling */
 .submit-button {
     background: linear-gradient(45deg, #667eea, #764ba2) !important;
@@ -186,48 +174,6 @@ custom_css = """
 .gr-textbox:focus, .gr-dropdown:focus {
     border-color: #667eea !important;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
-}
-
-/* Fix dropdown positioning issues */
-.gr-dropdown {
-    position: relative !important;
-    z-index: 1000 !important;
-}
-
-/* Dropdown menu positioning fix */
-.gr-dropdown .absolute {
-    position: absolute !important;
-    z-index: 1001 !important;
-    top: 100% !important;
-    left: 0 !important;
-    right: 0 !important;
-    margin-top: 4px !important;
-    max-height: 200px !important;
-    overflow-y: auto !important;
-}
-
-/* Alternative dropdown menu selector */
-.gr-dropdown [role="listbox"] {
-    position: absolute !important;
-    z-index: 1001 !important;
-    top: 100% !important;
-    left: 0 !important;
-    right: 0 !important;
-    margin-top: 4px !important;
-    max-height: 200px !important;
-    overflow-y: auto !important;
-}
-
-/* Additional dropdown container fix */
-.gr-dropdown > div:last-child {
-    position: absolute !important;
-    z-index: 1001 !important;
-    top: 100% !important;
-    left: 0 !important;
-    right: 0 !important;
-    margin-top: 4px !important;
-    max-height: 200px !important;
-    overflow-y: auto !important;
 }
 
 /* Ensure dropdown options are visible */
@@ -292,7 +238,7 @@ with gr.Blocks(css=custom_css, theme=gr.themes.Soft()) as dashboard:
             <div class="header-subtitle">Discover your next favorite book through AI-powered recommendations</div>
         """)
 
-        with gr.Column(elem_classes="input-section"):
+        with gr.Column():
             gr.HTML("""
                         <div class="search-title">Tell us what you're looking for</div>
                     """)
