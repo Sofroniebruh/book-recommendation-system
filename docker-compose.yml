@@ -1,0 +1,7 @@
+services:
+  python-recommender:
+    build: ./book-recommender
+    ports:
+      - "7860:7860"
+    env_file:
+      - ./book-recommender/.env
